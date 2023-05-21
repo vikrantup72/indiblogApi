@@ -27,7 +27,7 @@ const registration = (req, res, next) => {
             status: true,
           });
           let profile = new Profile({
-            user_id: user._id,
+            _id: user._id,
             name: req.body.name,
             email: req.body.email.toLowerCase(),
             phone: req.body.phone,

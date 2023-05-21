@@ -26,7 +26,7 @@ function verifyToken(req, res, next) {
   }
 }
 // routes
-
+app.use("/uploads", express.static("uploads"));
 app.use("/api/v1", authRoute);
 app.use("/api/v1", verifyToken, mainRoute);
 const port = process.env.PORT || 5000;

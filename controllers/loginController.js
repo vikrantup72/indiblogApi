@@ -1,12 +1,10 @@
 const jwt = require("jsonwebtoken");
 const Users = require("../models/registrationModel");
-const mongoose = require("mongoose");
-const Blogs = require("../models/mainModel/blog");
 
 const login = (req, res) => {
   console.log(req.body);
   Users.find({ email: req.body.email.toLowerCase() }).then((result) => {
-    console.log(result[0]);
+    console.log(result[0], "hhhjh");
     if (result.length < 1) {
       return res.status(403).json({
         msg: "user not exist",
@@ -37,22 +35,4 @@ const login = (req, res) => {
   });
 };
 
-const profile = (req, res) => {
-  jwt.verify(req.token, "secretKey", (err, authdata) => {
-    if (err) {
-      res.send({ message: "token is invalid" });
-    } else {
-      // res.send(authdata)
-      Blogs.find({ author_id: authdata._id })
-        .populate("category", "name")
-        .then((response) => {
-          res.send({
-            authdata,
-            response,
-          });
-        });
-    }
-  });
-};
-
-module.exports = { login, profile };
+module.exports = { login };

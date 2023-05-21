@@ -7,8 +7,10 @@ const createBlog = (req, res) => {
       res.send({ message: "token is invalid" });
     } else {
       let blog = new Blogs({
-        author_id: authdata._id,
+        created_by: authdata._id,
         title: req.body.title,
+        blogImg: req?.file?.path,
+        visibleType: req.body.visibleType,
         description: req.body.description,
         category: req.body.category,
         type: req.body.type,
@@ -69,8 +71,7 @@ const getBlog = (req, res) => {
       res.send({ message: "token is invalid" });
     } else {
       Blogs.find()
-        .populate("category", "name")
-        .populate("author_id", "name")
+        .populate("created_by")
         .then((response) => {
           res.send(response.reverse().filter((item) => item.type === "Public"));
         })
@@ -85,8 +86,8 @@ const getBlogByUser = (req, res) => {
     if (err) {
       res.send({ message: "token is invalid" });
     } else {
-      Blogs.find({ author_id: authdata._id })
-        .populate("author_id", "name")
+      Blogs.find({ created_by: authdata._id })
+        .populate("created_by")
         .then((response) => {
           res.send(response.reverse());
         })

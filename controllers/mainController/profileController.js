@@ -7,7 +7,7 @@ const getProfile = (req, res) => {
     if (err) {
       res.send({ message: "token is invalid" });
     } else {
-      Profile.find({ user_id: authdata._id })
+      Profile.find({ _id: authdata._id })
         .then((response) => {
           res.send(response[0]);
         })
@@ -24,12 +24,11 @@ const updateProfile = (req, res) => {
     if (err) {
       res.send({ message: "token is invalid" });
     } else {
-      Profile.find({ user_id: authdata._id }).then(async (response) => {
+      Profile.find({ _id: authdata._id }).then(async (response) => {
         Profile.findOneAndUpdate(
-          { user_id: authdata._id },
+          { _id: authdata._id },
           {
             $set: {
-              user_id: authdata._id,
               name: req.body.name ? req.body.name : response.name,
               email: response.email,
               phone: req.body.phone ? req.body.phone : response.phone,

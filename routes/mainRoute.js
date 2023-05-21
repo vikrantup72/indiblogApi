@@ -10,15 +10,7 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + "profile_picture." + file.mimetype.split("/")[1]);
   },
 });
-const storage_music = multer.diskStorage({
-  filename: function (req, file, cb) {
-    cb(null, file.originalname);
-  },
-  destination: function (req, file, cb) {
-    cb(null, "./uploads");
-  },
-});
-const music = multer({ storage_music });
+
 const fileFilter = (req, file, cb) => {
   // reject a file
   if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
@@ -48,10 +40,9 @@ router.put(
   profileController.updateProfile
 );
 
-router.post("/blog", upload.none(), blogController.createBlog);
+router.post("/blog", upload.single("blogImg"), blogController.createBlog);
 router.get("/userblogs", upload.none(), blogController.getBlogByUser);
-router.post("/music", music.any("file"), blogController.uploadMusic);
-
+// router.post("/music", music.any("file"), blogController.uploadMusic);
 router.post("/category", upload.none(), categoryController.createCategory);
 router.get("/category", upload.none(), categoryController.getCategory);
 
